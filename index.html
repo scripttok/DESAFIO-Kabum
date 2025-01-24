@@ -6,15 +6,17 @@
     <title>Cadastro</title>
   </head>
   <body>
-    <div>
-      <h1>Cadastro de usuário</h1>
-
-      <form id="form" method="post" action="">
-        <label>Nome: *</label>
-        <input type="text" name="name" class="input-form" />
-      </form>
-      <br />
+    <h1>Cadastro de usuário</h1>
+    <span id="empty"></span>
+    <form id="form-valid" method="GET" action="/user">
+      <label>Nome: *</label>
+      <input type="text" name="nome" class="name-input" />
+      <br /><br />
+      <label>Senha: *</label>
+      <input type="password" name="password" class="password-input" />
+      <br /><br />
       <input type="submit" name="form-submit" value="Me Cadastrar" />
-    </div>
+    </form>
+    <script src="script.js"></script>
   </body>
 </html>
