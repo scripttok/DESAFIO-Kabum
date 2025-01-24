@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Cadastro</h1>
+    <form id="form-valid" action="/user" method="GET">
+      <label for="nome-register">Nome:</label>
+      <input type="text" id="nome-register" name="nome" required /><br />
+
+      <label for="senha-register">Senha:</label>
+      <input type="password" id="senha-register" name="senha" required /><br />
+
+      <button id="entrar" type="submit">Entrar</button>
+    </form>
+    <form id="form-cadastrar" action="/cadastro" method="GET">
+      <button id="cadastrar" type="submit">Cadastrar</button>
+    </form>
+  </body>
+</html>
