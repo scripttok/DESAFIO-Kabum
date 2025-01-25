@@ -104,6 +104,23 @@ app.put("/cliente/:id", (req, res) => {
   });
 });
 
+// metodo delete
+
+app.delete("/cliente/:id", (req, res) => {
+  const clienteId = req.params.id;
+
+  const query = "DELETE FROM clientes WHERE id = ?";
+  db.query(query, [clienteId], (err, results) => {
+    if (err) {
+      console.error("Erro ao deletar o cliente:", err);
+      return res.status(500).send("Erro ao deletar o cliente");
+    }
+
+    console.log(`Cliente com ID ${clienteId} deletado com sucesso`);
+    res.redirect("/clientes");
+  });
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
