@@ -4,19 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      #empty {
+        color: red;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Cadastro de usuário</h1>
+    <h1>Cadastro de Usuário</h1>
     <span id="empty"></span>
-    <form id="form-valid" method="GET" action="/user">
-      <label>Nome: *</label>
-      <input type="text" name="nome" class="name-input" />
-      <br /><br />
-      <label>Senha: *</label>
-      <input type="password" name="password" class="password-input" />
-      <br /><br />
+    <form id="form-valid" method="POST" action="/cadastro">
+      <label for="nome">Nome: *</label>
+      <input type="text" name="nome" id="nome" required />
+
+      <label for="password">Senha: *</label>
+      <input type="password" name="password" id="password" required />
+
       <input type="submit" name="form-submit" value="Me Cadastrar" />
     </form>
-    <script src="script.js"></script>
   </body>
 </html>

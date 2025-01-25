@@ -3,37 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clientes Cadastrados</title>
+    <title>Lista de Clientes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      a {
+        text-decoration: none;
+        color: #007bff;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+      .actions form {
+        display: inline;
+      }
+      .actions button {
+        background-color: #d9534f;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .actions button:hover {
+        background-color: #c9302c;
+      }
+    </style>
   </head>
   <body>
-    <h1>Clientes Cadastrados</h1>
-
-    <table border="1">
+    <h1>Lista de Clientes</h1>
+    <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nome</th>
           <th>Data de Nascimento</th>
           <th>CPF</th>
           <th>RG</th>
           <th>Telefone</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <% clientes.forEach(cliente => { %>
+        <% clientes.forEach((cliente) => { %>
         <tr>
-          <td><%= cliente.id %></td>
           <td><%= cliente.nome %></td>
           <td><%= cliente.data_nascimento %></td>
           <td><%= cliente.cpf %></td>
           <td><%= cliente.rg %></td>
           <td><%= cliente.telefone %></td>
+          <td class="actions">
+            <a href="/cliente/<%= cliente.id %>/editar">Editar</a>
+            <form
+              method="POST"
+              action="/cliente/<%= cliente.id %>?_method=DELETE"
+            >
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
         </tr>
         <% }); %>
       </tbody>
     </table>
-    <br />
-
-    <button onclick="window.location.href='/'">Voltar à Página Inicial</button>
+    <a href="/cadastro">Cadastrar Novo Cliente</a>
   </body>
 </html>
