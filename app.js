@@ -28,6 +28,9 @@ db.connect((err) => {
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "home.html"));
+});
 
 app.get("/cadastro", (req, res) => {
   res.sendFile(path.join(__dirname, "cadastro.html"));
