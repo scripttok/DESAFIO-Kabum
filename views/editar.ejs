@@ -1,0 +1,145 @@
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  form {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 500px;
+    margin: 20px auto;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 500px;
+    margin: 20px auto;
+  }
+
+  li {
+    background: #f4f4f4;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  li p {
+    margin: 0 0 10px;
+  }
+
+  a {
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<h1>Editar Cliente</h1>
+
+<form action="/cliente/<%= cliente.id %>?_method=PUT" method="POST">
+  <label for="nome">Nome</label>
+  <input type="text" name="nome" value="<%= cliente.nome %>" required />
+
+  <label for="data_nascimento">Data de Nascimento</label>
+  <input
+    type="date"
+    name="data_nascimento"
+    value="<%= cliente.data_nascimento %>"
+    required
+  />
+
+  <label for="cpf">CPF</label>
+  <input type="text" name="cpf" value="<%= cliente.cpf %>" required />
+
+  <label for="rg">RG</label>
+  <input type="text" name="rg" value="<%= cliente.rg %>" required />
+
+  <label for="telefone">Telefone</label>
+  <input type="text" name="telefone" value="<%= cliente.telefone %>" required />
+
+  <button type="submit">Salvar</button>
+</form>
+
+<h2>Endereços</h2>
+
+<form action="/cliente/<%= cliente.id %>/enderecos" method="POST">
+  <label for="endereco">Endereço</label>
+  <input type="text" name="endereco" required />
+
+  <label for="cidade">Cidade</label>
+  <input type="text" name="cidade" required />
+
+  <label for="estado">Estado</label>
+  <input type="text" name="estado" required />
+
+  <label for="cep">CEP</label>
+  <input type="text" name="cep" required />
+
+  <button type="submit">Adicionar Endereço</button>
+</form>
+
+<ul>
+  <% enderecos.forEach(function(endereco) { %>
+  <li>
+    <p>
+      <%= endereco.endereco %>, <%= endereco.cidade %>, <%= endereco.estado %>,
+      <%= endereco.cep %>
+    </p>
+    <form action="/endereco/<%= endereco.id %>?_method=DELETE" method="POST">
+      <button type="submit">Excluir</button>
+    </form>
+  </li>
+  <% }); %>
+</ul>
+
+<a href="/clientes">Voltar para a lista de clientes</a>

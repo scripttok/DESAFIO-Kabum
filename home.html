@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+      nav ul li {
+        display: inline;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+      }
+      nav ul li a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Bem-vindo ao Sistema de Cadastro</h1>
+    </header>
+    <nav>
+      <form action="/home" method="POST">
+        <ul>
+          <li><a href="/cadastro">Cadastro</a></li>
+          <li><a href="/clientes">Clientes</a></li>
+        </ul>
+      </form>
+    </nav>
+  </body>
+</html>
