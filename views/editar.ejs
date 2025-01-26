@@ -53,6 +53,77 @@
         required
       /><br />
 
+      <h3>Endereços:</h3>
+      <h3>Endereços:</h3>
+      <div id="enderecos-container">
+        <% if (cliente.enderecos && cliente.enderecos.length > 0) { %> <%
+        cliente.enderecos.forEach((endereco, index) => { %>
+        <div class="endereco">
+          <label for="enderecos[<%= index %>][endereco]">Endereço:</label>
+          <input
+            type="text"
+            name="enderecos[<%= index %>][endereco]"
+            value="<%= endereco.endereco %>"
+          />
+          <label for="enderecos[<%= index %>][cidade]">Cidade:</label>
+          <input
+            type="text"
+            name="enderecos[<%= index %>][cidade]"
+            value="<%= endereco.cidade %>"
+          />
+          <label for="enderecos[<%= index %>][estado]">Estado:</label>
+          <input
+            type="text"
+            name="enderecos[<%= index %>][estado]"
+            value="<%= endereco.estado %>"
+          />
+          <label for="enderecos[<%= index %>][cep]">CEP:</label>
+          <input
+            type="text"
+            name="enderecos[<%= index %>][cep]"
+            value="<%= endereco.cep %>"
+          />
+        </div>
+        <% }) %> <% } %>
+      </div>
+      <button type="button" onclick="adicionarEndereco()">
+        Adicionar Outro Endereço</button
+      ><br /><br />
+
+      <script>
+        let enderecoCount = <%= cliente.enderecos ? cliente.enderecos.length : 0 %>;
+
+        function adicionarEndereco() {
+          const container = document.getElementById("enderecos-container");
+          const novoEndereco = document.createElement("div");
+          novoEndereco.innerHTML = `
+            <label for="enderecos[${enderecoCount}][endereco]">Endereço:</label>
+            <input type="text" name="enderecos[${enderecoCount}][endereco]" required /><br />
+
+            <label for="enderecos[${enderecoCount}][cidade]">Cidade:</label>
+            <input type="text" name="enderecos[${enderecoCount}][cidade]" /><br />
+
+            <label for="enderecos[${enderecoCount}][estado]">Estado:</label>
+            <input type="text" name="enderecos[${enderecoCount}][estado]" /><br />
+
+            <label for="enderecos[${enderecoCount}][cep]">CEP:</label>
+            <input type="text" name="enderecos[${enderecoCount}][cep]" /><br />
+
+            <button type="button" onclick="removerEndereco(${enderecoCount})">
+              Remover Endereço
+            </button><br /><br />
+          `;
+          container.appendChild(novoEndereco);
+          enderecoCount++;
+        }
+
+        function removerEndereco(index) {
+          const container = document.getElementById("enderecos-container");
+          const enderecoToRemove = container.children[index];
+          container.removeChild(enderecoToRemove);
+        }
+      </script>
+
       <button type="submit">Atualizar</button>
     </form>
 
