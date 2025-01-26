@@ -34,9 +34,6 @@
         display: flex;
         gap: 10px;
       }
-      .actions form {
-        display: inline;
-      }
       .actions button {
         background-color: #d9534f;
         color: white;
@@ -75,12 +72,10 @@
           <td><%= cliente.cpf %></td>
           <td><%= cliente.rg %></td>
           <td><%= cliente.telefone %></td>
-
           <td><%= cliente.endereco || '' %></td>
           <td><%= cliente.cidade || '' %></td>
           <td><%= cliente.estado || '' %></td>
           <td><%= cliente.cep || '' %></td>
-
           <td class="actions">
             <a href="/cliente/<%= cliente.id %>/editar">Editar</a>
             <form
@@ -95,5 +90,7 @@
       </tbody>
     </table>
     <a href="/cadastro">Cadastrar Novo Cliente</a>
+    <br /><br />
+    <a href="/">Sair</a>
   </body>
 </html>

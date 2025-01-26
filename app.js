@@ -3,12 +3,10 @@ const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const path = require("path");
-const e = require("method-override");
 
 const app = express();
 
 app.set("view engine", "ejs");
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
@@ -28,7 +26,7 @@ db.connect((err) => {
 });
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "home.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/cadastro", (req, res) => {
@@ -40,6 +38,7 @@ app.get("/clientes", (req, res) => {
     SELECT clientes.*, enderecos.endereco, enderecos.cidade, enderecos.estado, enderecos.cep
     FROM clientes
     LEFT JOIN enderecos ON clientes.id = enderecos.cliente_id
+    WHERE enderecos.id IN (SELECT MAX(id) FROM enderecos GROUP BY cliente_id)
   `;
 
   db.query(query, (err, results) => {
@@ -47,7 +46,6 @@ app.get("/clientes", (req, res) => {
       console.error("Erro ao buscar os clientes:", err);
       return res.status(500).send("Erro ao buscar os clientes");
     }
-
     res.render("clientes", { clientes: results });
   });
 });
@@ -56,7 +54,6 @@ app.get("/cliente/:id/editar", (req, res) => {
   const { id } = req.params;
 
   const query = "SELECT * FROM clientes WHERE id = ?";
-
   db.query(query, [id], (err, results) => {
     if (err) {
       console.error("Erro ao buscar cliente:", err);
@@ -106,9 +103,9 @@ app.post("/cadastro", (req, res) => {
 
       if (endereco && cidade && estado && cep) {
         const queryEndereco = `
-          INSERT INTO enderecos (cliente_id, endereco, cidade, estado, cep)
-          VALUES (?, ?, ?, ?, ?)
-        `;
+        INSERT INTO enderecos (cliente_id, endereco, cidade, estado, cep)
+        VALUES (?, ?, ?, ?, ?)
+      `;
 
         db.query(
           queryEndereco,
@@ -125,6 +122,29 @@ app.post("/cadastro", (req, res) => {
       } else {
         res.redirect("/clientes");
       }
+    }
+  );
+});
+
+app.post("/cliente/:id/enderecos", (req, res) => {
+  const { id } = req.params;
+  const { endereco, cidade, estado, cep } = req.body;
+
+  const queryEndereco = `
+    INSERT INTO enderecos (cliente_id, endereco, cidade, estado, cep)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    queryEndereco,
+    [id, endereco, cidade, estado, cep],
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao adicionar o endereço:", err);
+        return res.status(500).send("Erro ao adicionar o endereço");
+      }
+
+      res.redirect(`/cliente/${id}/editar`);
     }
   );
 });
@@ -148,46 +168,39 @@ app.put("/cliente/:id", (req, res) => {
         return res.status(500).send("Erro ao atualizar cliente");
       }
 
-      const deleteQuery = `
-        DELETE FROM enderecos WHERE cliente_id = ?
-      `;
+      if (enderecos && enderecos.length > 0) {
+        enderecos.forEach((endereco) => {
+          const queryEndereco = `
+          INSERT INTO enderecos (cliente_id, endereco, cidade, estado, cep)
+          VALUES (?, ?, ?, ?, ?)
+        `;
+          db.query(queryEndereco, [
+            id,
+            endereco.endereco,
+            endereco.cidade,
+            endereco.estado,
+            endereco.cep,
+          ]);
+        });
+      }
 
-      db.query(deleteQuery, [id], (err) => {
-        if (err) {
-          console.error("Erro ao apagar os endereços antigos:", err);
-          return res.status(500).send("Erro ao atualizar os endereços");
-        }
-
-        if (enderecos && enderecos.length > 0) {
-          const insertQuery = `
-            INSERT INTO enderecos (cliente_id, endereco, cidade, estado, cep)
-            VALUES (?, ?, ?, ?, ?)
-          `;
-
-          enderecos.forEach((endereco) => {
-            db.query(
-              insertQuery,
-              [
-                id,
-                endereco.endereco,
-                endereco.cidade || null,
-                endereco.estado || null,
-                endereco.cep || null,
-              ],
-              (err) => {
-                if (err) {
-                  console.error("Erro ao inserir novo endereço:", err);
-                  return res.status(500).send("Erro ao inserir novo endereço");
-                }
-              }
-            );
-          });
-        }
-
-        res.redirect("/clientes");
-      });
+      res.redirect(`/cliente/${id}/editar`);
     }
   );
+});
+
+app.delete("/endereco/:id", (req, res) => {
+  const enderecoId = req.params.id;
+
+  const query = "DELETE FROM enderecos WHERE id = ?";
+  db.query(query, [enderecoId], (err) => {
+    if (err) {
+      console.error("Erro ao deletar o endereço:", err);
+      return res.status(500).send("Erro ao deletar o endereço");
+    }
+
+    res.redirect(`/cliente/${req.params.id}/editar`);
+  });
 });
 
 app.delete("/cliente/:id", (req, res) => {
@@ -202,13 +215,12 @@ app.delete("/cliente/:id", (req, res) => {
     }
 
     const deleteClienteQuery = "DELETE FROM clientes WHERE id = ?";
-    db.query(deleteClienteQuery, [clienteId], (err, results) => {
+    db.query(deleteClienteQuery, [clienteId], (err) => {
       if (err) {
         console.error("Erro ao deletar o cliente:", err);
         return res.status(500).send("Erro ao deletar o cliente");
       }
 
-      console.log(`Cliente com ID ${clienteId} deletado com sucesso`);
       res.redirect("/clientes");
     });
   });

@@ -1,136 +1,59 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Editar Cliente</title>
-  </head>
-  <body>
-    <h1>Editar Cliente</h1>
-    <form action="/cliente/<%= cliente.id %>?_method=PUT" method="POST">
-      <label for="nome">Nome:</label>
-      <input
-        type="text"
-        name="nome"
-        id="nome"
-        value="<%= cliente.nome %>"
-        required
-      /><br />
+<h1>Editar Cliente</h1>
 
-      <label for="data_nascimento">Data de Nascimento:</label>
-      <input
-        type="date"
-        name="data_nascimento"
-        id="data_nascimento"
-        value="<%= cliente.data_nascimento %>"
-        required
-      /><br />
+<form action="/cliente/<%= cliente.id %>?_method=PUT" method="POST">
+  <label for="nome">Nome</label>
+  <input type="text" name="nome" value="<%= cliente.nome %>" required />
 
-      <label for="cpf">CPF:</label>
-      <input
-        type="text"
-        name="cpf"
-        id="cpf"
-        value="<%= cliente.cpf %>"
-        required
-      /><br />
+  <label for="data_nascimento">Data de Nascimento</label>
+  <input
+    type="date"
+    name="data_nascimento"
+    value="<%= cliente.data_nascimento %>"
+    required
+  />
 
-      <label for="rg">RG:</label>
-      <input
-        type="text"
-        name="rg"
-        id="rg"
-        value="<%= cliente.rg %>"
-        required
-      /><br />
+  <label for="cpf">CPF</label>
+  <input type="text" name="cpf" value="<%= cliente.cpf %>" required />
 
-      <label for="telefone">Telefone:</label>
-      <input
-        type="text"
-        name="telefone"
-        id="telefone"
-        value="<%= cliente.telefone %>"
-        required
-      /><br />
+  <label for="rg">RG</label>
+  <input type="text" name="rg" value="<%= cliente.rg %>" required />
 
-      <h3>Endereços:</h3>
-      <h3>Endereços:</h3>
-      <div id="enderecos-container">
-        <% if (cliente.enderecos && cliente.enderecos.length > 0) { %> <%
-        cliente.enderecos.forEach((endereco, index) => { %>
-        <div class="endereco">
-          <label for="enderecos[<%= index %>][endereco]">Endereço:</label>
-          <input
-            type="text"
-            name="enderecos[<%= index %>][endereco]"
-            value="<%= endereco.endereco %>"
-          />
-          <label for="enderecos[<%= index %>][cidade]">Cidade:</label>
-          <input
-            type="text"
-            name="enderecos[<%= index %>][cidade]"
-            value="<%= endereco.cidade %>"
-          />
-          <label for="enderecos[<%= index %>][estado]">Estado:</label>
-          <input
-            type="text"
-            name="enderecos[<%= index %>][estado]"
-            value="<%= endereco.estado %>"
-          />
-          <label for="enderecos[<%= index %>][cep]">CEP:</label>
-          <input
-            type="text"
-            name="enderecos[<%= index %>][cep]"
-            value="<%= endereco.cep %>"
-          />
-        </div>
-        <% }) %> <% } %>
-      </div>
-      <button type="button" onclick="adicionarEndereco()">
-        Adicionar Outro Endereço</button
-      ><br /><br />
+  <label for="telefone">Telefone</label>
+  <input type="text" name="telefone" value="<%= cliente.telefone %>" required />
 
-      <script>
-        let enderecoCount = <%= cliente.enderecos ? cliente.enderecos.length : 0 %>;
+  <button type="submit">Salvar</button>
+</form>
 
-        function adicionarEndereco() {
-          const container = document.getElementById("enderecos-container");
-          const novoEndereco = document.createElement("div");
-          novoEndereco.innerHTML = `
-            <label for="enderecos[${enderecoCount}][endereco]">Endereço:</label>
-            <input type="text" name="enderecos[${enderecoCount}][endereco]" required /><br />
+<h2>Endereços</h2>
 
-            <label for="enderecos[${enderecoCount}][cidade]">Cidade:</label>
-            <input type="text" name="enderecos[${enderecoCount}][cidade]" /><br />
+<form action="/cliente/<%= cliente.id %>/enderecos" method="POST">
+  <label for="endereco">Endereço</label>
+  <input type="text" name="endereco" required />
 
-            <label for="enderecos[${enderecoCount}][estado]">Estado:</label>
-            <input type="text" name="enderecos[${enderecoCount}][estado]" /><br />
+  <label for="cidade">Cidade</label>
+  <input type="text" name="cidade" required />
 
-            <label for="enderecos[${enderecoCount}][cep]">CEP:</label>
-            <input type="text" name="enderecos[${enderecoCount}][cep]" /><br />
+  <label for="estado">Estado</label>
+  <input type="text" name="estado" required />
 
-            <button type="button" onclick="removerEndereco(${enderecoCount})">
-              Remover Endereço
-            </button><br /><br />
-          `;
-          container.appendChild(novoEndereco);
-          enderecoCount++;
-        }
+  <label for="cep">CEP</label>
+  <input type="text" name="cep" required />
 
-        function removerEndereco(index) {
-          const container = document.getElementById("enderecos-container");
-          const enderecoToRemove = container.children[index];
-          container.removeChild(enderecoToRemove);
-        }
-      </script>
+  <button type="submit">Adicionar Endereço</button>
+</form>
 
-      <button type="submit">Atualizar</button>
+<ul>
+  <% enderecos.forEach(function(endereco) { %>
+  <li>
+    <p>
+      <%= endereco.endereco %>, <%= endereco.cidade %>, <%= endereco.estado %>,
+      <%= endereco.cep %>
+    </p>
+    <form action="/endereco/<%= endereco.id %>?_method=DELETE" method="POST">
+      <button type="submit">Excluir</button>
     </form>
+  </li>
+  <% }); %>
+</ul>
 
-    <form action="/cliente/<%= cliente.id %>?_method=DELETE" method="POST">
-      <button type="submit" style="color: red">Excluir Cliente</button>
-    </form>
-
-    <a href="/clientes">Voltar</a>
-  </body>
-</html>
+<a href="/clientes">Voltar para a lista de clientes</a>

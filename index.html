@@ -3,55 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro</title>
+    <title>Login</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         margin: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
       }
       form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
         max-width: 400px;
-        margin: 0 auto;
       }
       label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         font-weight: bold;
       }
       input {
         width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
+        padding: 10px;
+        margin-bottom: 20px;
         border: 1px solid #ccc;
         border-radius: 4px;
+        font-size: 16px;
       }
-      input[type="submit"] {
-        background-color: #4caf50;
-        color: white;
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
         border: none;
+        border-radius: 4px;
+        font-size: 16px;
         cursor: pointer;
       }
-      input[type="submit"]:hover {
-        background-color: #45a049;
-      }
-      #empty {
-        color: red;
-        font-size: 0.9em;
-        margin-bottom: 15px;
+      button:hover {
+        background-color: #0056b3;
       }
     </style>
   </head>
   <body>
-    <h1>Cadastro de Usuário</h1>
-    <span id="empty"></span>
-    <form id="form-valid" method="POST" action="/cadastro">
-      <label for="nome">Nome: *</label>
-      <input type="text" name="nome" id="nome" required />
+    <form action="/login" method="POST">
+      <h2>Login</h2>
+      <label for="email">E-mail</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Digite seu e-mail"
+        required
+      />
 
-      <label for="password">Senha: *</label>
-      <input type="password" name="password" id="password" required />
+      <label for="senha">Senha</label>
+      <input
+        type="password"
+        id="senha"
+        name="senha"
+        placeholder="Digite sua senha"
+        required
+      />
 
-      <input type="submit" name="form-submit" value="Me Cadastrar" />
+      <button type="button" onclick="window.location.href='/cadastro'">
+        Entrar
+      </button>
     </form>
   </body>
 </html>
