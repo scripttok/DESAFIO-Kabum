@@ -4,7 +4,7 @@
 
 # Projeto de Cadastro de Clientes
 
-Este projeto é uma aplicação web para gerenciar clientes, com funcionalidades de cadastro, edição e remoção.Um teste para a empresa Kabum a quem adreço por poder participar deste projeto. Ele utiliza Node.js no backend, MySQL como banco de dados e Docker.
+Este projeto é uma aplicação web para gerenciar clientes sem o uso de qualquer fremework ou seja script puro, com funcionalidades de cadastro, edição e remoção.Um teste para a empresa Kabum a quem adreço por poder participar deste projeto. Ele utiliza Node.js no backend, MySQL como banco de dados e Docker.
 
 ## Tecnologias Utilizadas
 - Node.js
